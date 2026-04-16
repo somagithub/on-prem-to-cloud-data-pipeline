@@ -32,10 +32,10 @@ The final stage transforms processed data into actionable insights for decision-
 ---
 
 ## 📂 Repository Structure
-*   `01_load_sql_to_bronze.py`: Ingestion logic from SQL sources.
-*   `02_data_quality_tests.py`: Validation and data integrity scripts.
-*   `Create Silver Table.sql`: Transformation and deduplication logic.
-*   `Sales Analytics-Gold Layer.pdf`: Full exported analytics report.
+*   [`01_load_sql_to_bronze.py`](01_load_sql_to_bronze.py): Ingestion logic from SQL sources.
+*   [`02_data_quality_tests.py`](02_data_quality_tests.py): Validation and data integrity scripts.
+*   [`Create Silver Table.sql`](Create%20Silver%20Table.sql): Transformation and deduplication logic.
+*   [`Sales Analytics-Gold Layer.pdf`](Sales%20Analytics-Gold%20Layer.pdf): Full exported analytics report.
 
 ---
 
