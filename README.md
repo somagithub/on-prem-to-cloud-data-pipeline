@@ -36,3 +36,16 @@ The final stage transforms processed data into actionable insights for decision-
 *   `02_data_quality_tests.py`: Validation and data integrity scripts.
 *   `Create Silver Table.sql`: Transformation and deduplication logic.
 *   `Sales Analytics-Gold Layer.pdf`: Full exported analytics report.
+
+---
+
+## 🏆 Certifications & Badges
+I hold the following industry-recognized certifications in the Modern Data Stack:
+
+
+| Badge | Certification | Verification |
+| :--- | :--- | :--- |
+| ![dbt](https://shields.io) | **dbt Fundamentals** | [Verify Credential](https://credentials.getdbt.com/f660f49d-9069-43cc-9517-271e4308070d#acc.aioOebYA) |
+| ![Databricks](https://shields.io) | **Databricks Fundamentals** | [Verify Credential](https://credentials.databricks.com/db325e6a-bde3-479a-a51f-593fbfd1d36f#acc.W0zRQ8Lt) |
+
+---
