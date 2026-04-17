@@ -1,16 +1,16 @@
 # Databricks notebook source
-# DBTITLE 1,Source to Gold DQ Tests
+# DBTITLE 1,Source to Gold Validation
 # MAGIC %md
-# MAGIC # Source to Gold Data Quality Tests (Great Expectations)
+# MAGIC # Medallion Pipeline Validation
 # MAGIC
-# MAGIC Automated DQ validation across the **medallion architecture** using Great Expectations v1 with an EphemeralDataContext and Spark datasource.
+# End-to-end validation for a medallion pipeline migrating on-prem SQL Server data into an Azure Lakehouse, with Great Expectations checks across Bronze, Silver and Gold layers.
 # MAGIC
 # MAGIC | Layer | Table | Key Checks |
 # MAGIC |-------|-------|------------|
 # MAGIC | Bronze | `dbx_sql_to_bronze.bronze.dbo_Sales_Source_parquet` | Nulls, ranges, schema |
 # MAGIC | Silver | `dbx_sql_to_bronze.silver.Sales_Source` | Uniqueness, null filters, row count |
 # MAGIC | Gold | `sales_by_category`, `daily_sales_summary`, `customer_summary` | Aggregation integrity |
-# MAGIC | Cross-Layer | All | Row count consistency |
+# MAGIC | Cross-Layer | All | Row count validation |
 
 # COMMAND ----------
 
@@ -26,7 +26,7 @@ import great_expectations.expectations as gxe
 # ── Ephemeral context (in-memory, no persistent store) ──
 context = gx.get_context(mode="ephemeral")
 
-# NOTE: Using Pandas datasource because GX's Spark engine calls PERSIST TABLE
+# Use Pandas datasource for Databricks compatibility in this environment
 # which is not supported on Databricks serverless compute.
 datasource = context.data_sources.add_pandas(name="pandas_ds")
 
@@ -97,7 +97,7 @@ def run_checks(pdf, layer_label, expectations):
         print(f"  {tag}  {etype}  [{detail}]")
         passed += ok
         failed += (not ok)
-        all_results.append(dict(layer=layer_label, test=etype, detail=detail, passed=ok))
+        all_results.append(dict(layer=layer_label, =etype, detail=detail, passed=ok))
 
     print(f"\n  ➜ {passed} passed, {failed} failed / {passed + failed} total")
     return validation
@@ -106,8 +106,8 @@ print("\n✅ GX context, Pandas datasource, and helpers ready.")
 
 # COMMAND ----------
 
-# DBTITLE 1,Bronze DQ Checks
-# ── BRONZE Layer DQ ──────────────────────────────────────────────────
+# DBTITLE 1,Bronze Layer Validation
+# ── BRONZE Layer Validation ──────────────────────────────────────────────────
 # Note: _rescued_data column is auto-added by read_files() during bronze ingestion
 bronze_expectations = [
     gxe.ExpectTableRowCountToBeBetween(min_value=1),
@@ -125,8 +125,8 @@ run_checks(bronze_pdf, "Bronze — dbo_Sales_Source_parquet", bronze_expectation
 
 # COMMAND ----------
 
-# DBTITLE 1,Silver DQ Checks
-# ── SILVER Layer DQ ─────────────────────────────────────────────────
+# DBTITLE 1,Silver Layer Validation
+# ── SILVER Layer Validation ─────────────────────────────────────────────────
 silver_expectations = [
     gxe.ExpectTableRowCountToBeBetween(min_value=1),
     gxe.ExpectColumnValuesToNotBeNull(column="OrderID"),
@@ -145,8 +145,8 @@ run_checks(silver_pdf, "Silver — Sales_Source", silver_expectations)
 
 # COMMAND ----------
 
-# DBTITLE 1,Gold DQ Checks
-# ── GOLD Layer DQ ───────────────────────────────────────────────────
+# DBTITLE 1,Gold Layer Validation
+# ── GOLD Layer Validation ───────────────────────────────────────────────────
 
 # -- sales_by_category --
 run_checks(gold_category_pdf, "Gold — sales_by_category", [
@@ -172,18 +172,18 @@ run_checks(gold_customer_pdf, "Gold — customer_summary", [
 
 # COMMAND ----------
 
-# DBTITLE 1,Cross-Layer Consistency & Final Summary
-# ── CROSS-LAYER CONSISTENCY CHECKS ───────────────────────────────────
+# DBTITLE 1,Cross-Layer Validation Summary
+# ── CROSS-LAYER VALIDATION CHECKS ───────────────────────────────────
 from pyspark.sql import functions as F
 
 print("="*70)
-print("  🔗 Cross-Layer Consistency Checks")
+print("  🔗 Cross-Layer Validation Checks")
 print("="*70)
 
 def cross_check(description, condition):
     tag = "✅ PASS" if condition else "❌ FAIL"
     print(f"  {tag}  {description}")
-    all_results.append(dict(layer="Cross-Layer", test=description, detail="", passed=condition))
+    all_results.append(dict(layer="Cross-Layer", =description, detail="", passed=condition))
 
 # 1. Silver row count <= Bronze row count
 cross_check(
@@ -209,7 +209,7 @@ cross_check(
 from collections import defaultdict
 
 print(f"\n{'='*70}")
-print("  📊 FINAL DQ SUMMARY — Source to Gold")
+print("  📊 FINAL VALIDATION CHECKS SUMMARY — Source to Gold")
 print(f"{'='*70}\n")
 
 summary = defaultdict(lambda: {"passed": 0, "failed": 0})
