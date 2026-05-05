@@ -19,4 +19,4 @@ jobs:
       run: |
         pip install -r requirements.txt
     - name: Run pipeline tests
-      run: pytest tests/ -v
+      run: pytest 03_medallion_validation.py -v
