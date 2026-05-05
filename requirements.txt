@@ -1,0 +1,5 @@
+pytest
+pyspark==3.3.0
+pandas
+delta-spark
+pyarrow
