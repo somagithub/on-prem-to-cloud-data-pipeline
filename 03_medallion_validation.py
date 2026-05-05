@@ -183,7 +183,7 @@ print("="*70)
 def cross_check(description, condition):
     tag = "✅ PASS" if condition else "❌ FAIL"
     print(f"  {tag}  {description}")
-    all_results.append(dict(layer="Cross-Layer", =description, detail="", passed=condition))
+    all_results.append(dict(layer="Cross-Layer", description=description, detail="", passed=condition))
 
 # 1. Silver row count <= Bronze row count
 cross_check(
