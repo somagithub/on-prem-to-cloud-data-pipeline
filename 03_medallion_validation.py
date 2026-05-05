@@ -97,7 +97,7 @@ def run_checks(pdf, layer_label, expectations):
         print(f"  {tag}  {etype}  [{detail}]")
         passed += ok
         failed += (not ok)
-        all_results.append(dict(layer=layer_label, =etype, detail=detail, passed=ok))
+        all_results.append(dict(layer=layer_label,etype=etype, detail=detail, passed=ok))
 
     print(f"\n  ➜ {passed} passed, {failed} failed / {passed + failed} total")
     return validation
