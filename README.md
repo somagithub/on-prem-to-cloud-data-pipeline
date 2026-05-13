@@ -1,4 +1,4 @@
-# SQL Server to Azure Cloud Data Platform — Medallion Architecture
+# SQL Server to Azure Cloud Data Platform - Medallion Architecture
 
 > **End-to-end production-grade data pipeline** migrating on-premise SQL Server data to an Azure Lakehouse with Microsoft Purview governance, Microsoft Fabric integration, automated data quality validation and CI/CD.
 
